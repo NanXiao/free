@@ -67,9 +67,20 @@ int main(int argc, char **argv)
     mib[0] = CTL_VM;
     mib[1] = VM_UVMEXP;
     len = sizeof(uvm);
+
+    if (pledge("stdio vminfo", NULL) == -1)
+    {
+	    err(1, "pledge");
+    }
+
     if (sysctl(mib, 2, &uvm, &len, NULL, 0) == -1)
     {
         err(1, "sysctl");
+    }
+
+    if (pledge("stdio", NULL) == -1)
+    {
+	    err(1, "pledge");
     }
 
     used_mem = (int64_t)uvm.pagesize * uvm.active;
