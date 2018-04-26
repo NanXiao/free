@@ -3,6 +3,7 @@
 #include <sys/vmmeter.h>
 #include <err.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 struct uvmexp uvm;
 int64_t phy_mem;
@@ -33,10 +34,21 @@ void output(int64_t size)
     return;
 }
 
-int main(void)
+void usage(void)
+{
+    fprintf(stderr, "usage: free \n");
+    exit(1);
+}
+
+int main(int argc, char **argv)
 {
     int mib[2];
     size_t len;
+
+    if (argc > 1)
+    {
+        usage();
+    }
 
     mib[0] = CTL_HW;
     mib[1] = HW_PHYSMEM64;
