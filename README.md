@@ -11,4 +11,4 @@ P.S, I use [uvmexp.active](https://github.com/openbsd/src/blob/dbdab68da3b0b1184
 	# git clone https://github.com/NanXiao/free.git
 	# cd free
 	# make
-	# ./freee
+	# ./free
