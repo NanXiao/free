@@ -4,6 +4,7 @@
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 struct uvmexp uvm;
 int64_t phy_mem;
@@ -44,6 +45,9 @@ int main(int argc, char **argv)
 {
     int mib[2];
     size_t len;
+
+    if (pledge("stdio ps vminfo", NULL) == -1)
+	err(1, "pledge");
 
     if (argc > 1)
     {
