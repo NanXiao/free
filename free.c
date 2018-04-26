@@ -47,7 +47,9 @@ int main(int argc, char **argv)
     size_t len;
 
     if (pledge("stdio ps vminfo", NULL) == -1)
-	err(1, "pledge");
+    {
+        err(1, "pledge");
+    }
 
     if (argc > 1)
     {
