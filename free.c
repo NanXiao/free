@@ -83,8 +83,8 @@ int main(int argc, char **argv)
         err(1, "pledge");
     }
 
-    used_mem = (int64_t)uvm.pagesize * uvm.active;
-    free_mem = phy_mem - used_mem;
+    free_mem = (int64_t)uvm.pagesize * uvm.free;
+    used_mem = phy_mem - free_mem;
 
     swap = (int64_t)uvm.pagesize * uvm.swpages;
     used_swap = (int64_t)uvm.pagesize * uvm.swpginuse;
