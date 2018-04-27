@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 
     if (pledge("stdio vminfo", NULL) == -1)
     {
-	    err(1, "pledge");
+        err(1, "pledge");
     }
 
     if (sysctl(mib, 2, &uvm, &len, NULL, 0) == -1)
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 
     if (pledge("stdio", NULL) == -1)
     {
-	    err(1, "pledge");
+        err(1, "pledge");
     }
 
     used_mem = (int64_t)uvm.pagesize * uvm.active;
