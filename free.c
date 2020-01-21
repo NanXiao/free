@@ -4,6 +4,7 @@
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 struct uvmexp uvm;
@@ -14,30 +15,37 @@ int64_t swap;
 int64_t used_swap;
 int64_t free_swap;
 
-void output(int64_t size)
+void output(char mode, int64_t size)
 {
-    if (size < 1024 * 10)
+    switch (mode)
     {
-        printf("%17lldB", size);
+    case 'm':
+        printf("%18lld", size / (1024 * 1024));
+        break;
+    default:
+        if (size < 1024 * 10)
+        {
+            printf("%17lldB", size);
+        }
+        else if (size < 1024 * 1024 * 10)
+        {
+            printf("%17lldK", size / 1024);
+        }
+        else if (size < (int64_t)1024 * 1024 * 1024 * 10)
+        {
+            printf("%17lldM", size / (1024 * 1024));
+        }
+        else
+        {
+            printf("%17lldG", size / (1024 * 1024 * 1024));
+        }
+        break;
     }
-    else if (size < 1024 * 1024 * 10)
-    {
-        printf("%17lldK", size / 1024);
-    }
-    else if (size < (int64_t)1024 * 1024 * 1024 * 10)
-    {
-        printf("%17lldM", size / (1024 * 1024));
-    }
-    else
-    {
-        printf("%17lldG", size / (1024 * 1024 * 1024));
-    }
-    return;
 }
 
 void usage(void)
 {
-    fprintf(stderr, "usage: free \n");
+    fprintf(stderr, "usage: free [-m]\n");
     exit(1);
 }
 
@@ -45,15 +53,27 @@ int main(int argc, char **argv)
 {
     int mib[2];
     size_t len;
+    char mode = 'h';
 
     if (pledge("stdio ps vminfo", NULL) == -1)
     {
         err(1, "pledge");
     }
 
-    if (argc > 1)
+    if (argc > 2)
     {
         usage();
+    }
+    else if (argc == 2)
+    {
+        if (!strcmp(argv[1], "-m"))
+        {
+            mode = 'm';
+        }
+        else
+        {
+            usage();
+        }
     }
 
     mib[0] = CTL_HW;
@@ -93,15 +113,15 @@ int main(int argc, char **argv)
     printf("        %18s%18s%18s\n", "total", "used", "free");
 
     printf("Mem:    ");
-    output(phy_mem);
-    output(used_mem);
-    output(free_mem);
+    output(mode, phy_mem);
+    output(mode, used_mem);
+    output(mode, free_mem);
     printf("\n");
     
     printf("Swap:   ");
-    output(swap);
-    output(used_swap);
-    output(free_swap);
+    output(mode, swap);
+    output(mode, used_swap);
+    output(mode, free_swap);
     printf("\n");
 
     return 0;
