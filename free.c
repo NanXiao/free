@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <util.h>
 
 struct uvmexp uvm;
 int64_t phy_mem;
@@ -17,28 +18,17 @@ int64_t free_swap;
 
 void output(char mode, int64_t size)
 {
+    char *human_size;
     switch (mode)
     {
     case 'm':
         printf("%18lld", size / (1024 * 1024));
         break;
     default:
-        if (size < 1024 * 10)
-        {
-            printf("%17lldB", size);
-        }
-        else if (size < 1024 * 1024 * 10)
-        {
-            printf("%17lldK", size / 1024);
-        }
-        else if (size < (int64_t)1024 * 1024 * 1024 * 10)
-        {
-            printf("%17lldM", size / (1024 * 1024));
-        }
-        else
-        {
-            printf("%17lldG", size / (1024 * 1024 * 1024));
-        }
+        human_size = malloc(FMT_SCALED_STRSIZE);
+        fmt_scaled(size, human_size);
+        printf("%18s", human_size);
+        free(human_size);
         break;
     }
 }
