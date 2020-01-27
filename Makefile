@@ -3,6 +3,7 @@
 
 CC ?=		cc
 CFLAGS ?=	-g -O2 -Wall
+CFLAGS +=	-lutil
 PREFIX ?=	/usr/local
 
 all:
