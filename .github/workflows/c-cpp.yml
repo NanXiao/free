@@ -1,0 +1,21 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: macos-10.15
+
+    steps:
+    - uses: mario-campos/emulate@main
+      with:
+        operating-system: openbsd-latest
+    - name: Checkout repository
+      run: git clone --depth 1 https://github.com/mario-campos/free.git
+    - name: make
+      run: cd free && make
