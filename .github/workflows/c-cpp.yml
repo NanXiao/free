@@ -20,4 +20,4 @@ jobs:
     - name: make
       run: cd free && make
     - name: test
-      run: ./free
+      run: free/free
