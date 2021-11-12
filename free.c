@@ -24,12 +24,12 @@ void output(char mode, int64_t size)
     case 'm':
         printf("%18lld", size / (1024 * 1024));
         break;
-    default:
-        human_size = malloc(FMT_SCALED_STRSIZE);
+    default: {
+        char human_size[FMT_SCALED_STRSIZE];
         fmt_scaled(size, human_size);
         printf("%18s", human_size);
-        free(human_size);
         break;
+    }
     }
 }
 
