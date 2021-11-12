@@ -19,3 +19,5 @@ jobs:
       run: git clone --depth 1 https://github.com/mario-campos/free.git
     - name: make
       run: cd free && make
+    - name: test
+      run: ./free
