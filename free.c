@@ -8,14 +8,6 @@
 #include <unistd.h>
 #include <util.h>
 
-struct uvmexp uvm;
-int64_t phy_mem;
-int64_t used_mem;
-int64_t free_mem;
-int64_t swap;
-int64_t used_swap;
-int64_t free_swap;
-
 static void output(char mode, int64_t size)
 {
     char human_size[FMT_SCALED_STRSIZE];
@@ -39,9 +31,12 @@ void usage(void)
 
 int main(int argc, char **argv)
 {
+    struct uvmexp uvm;
     int mib[2];
     size_t len;
     char mode = 'h';
+    int64_t phy_mem, used_mem, free_mem;
+    int64_t swap, used_swap, free_swap;
 
     if (pledge("stdio ps vminfo", NULL) == -1)
     {
