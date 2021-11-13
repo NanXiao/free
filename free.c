@@ -16,7 +16,7 @@ int64_t swap;
 int64_t used_swap;
 int64_t free_swap;
 
-void output(char mode, int64_t size)
+static void output(char mode, int64_t size)
 {
     char human_size[FMT_SCALED_STRSIZE];
     switch (mode)
