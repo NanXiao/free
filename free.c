@@ -18,18 +18,16 @@ int64_t free_swap;
 
 void output(char mode, int64_t size)
 {
-    char *human_size;
+    char human_size[FMT_SCALED_STRSIZE];
     switch (mode)
     {
     case 'm':
         printf("%18lld", size / (1024 * 1024));
         break;
-    default: {
-        char human_size[FMT_SCALED_STRSIZE];
+    default:
         fmt_scaled(size, human_size);
         printf("%18s", human_size);
         break;
-    }
     }
 }
 
