@@ -1,6 +1,5 @@
 #include <sys/types.h>
 #include <sys/sysctl.h>
-#include <sys/vmmeter.h>
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
